@@ -6,7 +6,7 @@ DOTFILES_GIT_REMOTE="git@github.com:flombardi/dotfiles.git"
 
 # If missing, download and extract the dotfiles repository
 if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
-    printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
+    echo "Downloading dotfiles..."
     mkdir ${DOTFILES_DIRECTORY}
     # Get the tarball
     curl -fsSLo ${HOME}/dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
@@ -23,13 +23,13 @@ for opt in $@
 do
     case $opt in
         --no-sync) no_sync=true ;;
-        -*|--*) printf "Warning: invalid option $opt" ;;
+        -*|--*) echo "Warning: invalid option $opt" ;;
     esac
 done
 
 # Initialize the git repository if it's missing
 if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
-    printf "Initializing git repository..."
+    echo -n "Initializing git repository..."
     git init
     git remote add origin ${DOTFILES_GIT_REMOTE}
     git fetch origin master
@@ -42,9 +42,9 @@ fi
 
 # Conditionally sync with the remote repository
 if [[ $no_sync ]]; then
-    printf "Skipped dotfiles sync.\n"
+    echo "Skipped dotfiles sync."
 else
-    printf "Syncing dotfiles..."
+    echo -n "Syncing dotfiles..."
     # Pull down the latest changes
     git pull --rebase origin master
     # Update submodules
@@ -76,18 +76,17 @@ mirrorfiles() {
     link ".inputrc"      ".inputrc"
     link ".gitignore"    ".gitignore"
 
-    printf "Dotfiles update complete!"
+    echo "Dotfiles update complete!"
 }
 
 # Ask before potentially overwriting files
-printf "Warning: This step may overwrite your existing dotfiles."
-read -p "Continue? (y/n) " -n 1
-printf "\n"
+read -p "Warning: This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+echo "";
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     mirrorfiles
     source ${HOME}/.bash_profile
 else
-    printf "Aborting...\n"
+    echo "Aborting..."
     exit 1
 fi
