@@ -7,12 +7,12 @@ Tools](https://developer.apple.com/downloads) and may overwrite existing
 dotfiles in your HOME.
 
 ```bash
-$ bash -c "$(curl -fsSL raw.github.com/flombardi/dotfiles/master/dotfiles.sh)"
+$ bash -c "$(curl -fsSL raw.github.com/flombardi/dotfiles/master/bootstrap.sh)"
 ```
 
 N.B. If you wish to fork this project and maintain your own dotfiles, you must
 substitute my username for your own in the above command and the 2 variables
-found at the top of the `dotfiles.sh` script.
+found at the top of the `bootstrap.sh` script.
 
 ## Update
 
@@ -22,10 +22,10 @@ You should run the update when:
   copied rather than symlinked).
 * You want to pull changes from the remote repository.
 
-Run the dotfiles command:
+Run the bootstrap.sh command:
 
 ```bash
-$ ~/.dotfiles/dotfiles.sh
+$ ~/.dotfiles/bootstrap.sh
 ```
 
 Options:
@@ -43,9 +43,9 @@ Options:
 
 ### Add custom commands without creating a new fork
 
-If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
+If `~/.bash_extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
 
-My `~/.extra` looks something like this:
+My `~/.bash_extra` looks something like this:
 
 ```bash
 # Git credentials
