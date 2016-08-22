@@ -51,40 +51,27 @@ else
     git submodule update --recursive --init --quiet
 fi
 
-link() {
-    # Force create/replace the symlink.
-    ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
-}
-
-mirrorfiles() {
-    # Copy `.gitconfig`.
-    # Any global git commands in `~/.bash_profile.local` will be written to
-    # `.gitconfig`. This prevents them being committed to the repository.
-    rsync -avz --quiet ${DOTFILES_DIRECTORY}/.gitconfig  ${HOME}/.gitconfig
-
-    # Force remove the vim directory if it's already there.
-    if [ -e "${HOME}/.vim" ]; then
-        rm -rf "${HOME}/.vim"
-    fi
-
-    # Create the necessary symbolic links between the `.dotfiles` and `HOME`
-    # directory. The `bash_profile` sources other files directly from the
-    # `.dotfiles` repository.
-    link ".bashrc"       ".bashrc"
-    link ".bash_profile" ".bash_profile"
-    link ".curlrc"       ".curlrc"
-    link ".inputrc"      ".inputrc"
-    link ".gitignore"    ".gitignore"
-
-    echo "Dotfiles update complete!"
-}
-
 # Ask before potentially overwriting files
 read -p "Warning: This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
 echo "";
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-    mirrorfiles
+    # Copy `.gitconfig`.
+    # Any global git commands will be written to `.gitconfig`.
+    # This prevents them being committed to the repository.
+    rsync -avz --quiet ${DOTFILES_DIRECTORY}/.gitconfig  ${HOME}/.gitconfig
+
+    # Force remove the vim directory if it's already there.
+    test -e "${HOME}/.vim" && rm -rf "${HOME}/.vim"
+
+    # Create the necessary symbolic links between the `.dotfiles` and `HOME`
+    # directory. The `bash_profile` sources other files directly from the
+    # `.dotfiles` repository.
+    for file in .bashrc .bash_profile .curlrc .inputrc .gitignore; do
+      ln -fs "${DOTFILES_DIRECTORY}/${file}" "${HOME}/${file}"
+    done
+    echo "Dotfiles update complete!"
+
     source ${HOME}/.bash_profile
 else
     echo "Aborting..."
