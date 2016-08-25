@@ -1,81 +1,81 @@
 [alias]
   co = checkout
 
-	# View abbreviated SHA, description, and history graph
-	l = "!f() { git log --pretty=nice --decorate --date=short --graph $@; }; f"
+  # View abbreviated SHA, description, and history graph
+  l = "!f() { git log --pretty=nice --decorate --date=short --graph $@; }; f"
 
-	# View the current working tree status using the short format
-	s = status -s -b
+  # View the current working tree status using the short format
+  s = status -s -b
 
-	# Show the diff between the latest commit and the current state
-	d = diff --patch-with-stat
+  # Show the diff between the latest commit and the current state
+  d = diff --patch-with-stat
 
-	# Pull in remote changes for the current repository and all its submodules
-	p = !"git pull; git submodule foreach git pull origin master"
+  # Pull in remote changes for the current repository and all its submodules
+  p = !"git pull; git submodule foreach git pull origin master"
 
-	# Clone a repository including all submodules
-	c = clone --recursive
+  # Clone a repository including all submodules
+  c = clone --recursive
 
-	# Amend the currently staged files to the latest commit
-	amend = commit --amend --reuse-message=HEAD
+  # Amend the currently staged files to the latest commit
+  amend = commit --amend --reuse-message=HEAD
 
-	# Remove the old tag with this name and tag the latest commit with it.
-	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+  # Remove the old tag with this name and tag the latest commit with it.
+  retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
-	# Find branches containing commit
-	find-branches = "!f() { git branch -a --contains $1; }; f"
+  # Find branches containing commit
+  find-branches = "!f() { git branch -a --contains $1; }; f"
 
-	# Find tags containing commit
-	find-tags = "!f() { git describe --always --contains $1; }; f"
+  # Find tags containing commit
+  find-tags = "!f() { git describe --always --contains $1; }; f"
 
-	# Remove branches that have already been merged with master
-	delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+  # Remove branches that have already been merged with master
+  delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
-	# List contributors with number of commits
-	contributors = shortlog --summary --numbered --email --no-merges
+  # List contributors with number of commits
+  contributors = shortlog --summary --numbered --email --no-merges
 
-	# git change-commits GIT_COMMITTER_NAME "old name" "new name"
-	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\"$echo $VAR\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+  # git change-commits GIT_COMMITTER_NAME "old name" "new name"
+  change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\"$echo $VAR\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 
-	# `git remote prune origin`: remove remote-tracking branches that were deleted from the remote repo
-	# `git gc`: cleanup unnecessary files and optimize the local repository
-	trim = !git remote prune origin && git gc
+  # `git remote prune origin`: remove remote-tracking branches that were deleted from the remote repo
+  # `git gc`: cleanup unnecessary files and optimize the local repository
+  trim = !git remote prune origin && git gc
 
 [pretty]
-	# tut: http://gitimmersion.com/lab_10.html
+  # tut: http://gitimmersion.com/lab_10.html
   nice = "%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d"
 
 [apply]
-	# Detect whitespace errors when applying a patch
-	whitespace = fix
+  # Detect whitespace errors when applying a patch
+  whitespace = fix
 
 [core]
-	# Use custom `.gitignore`
-	excludesfile = ~/.gitignore
+  # Use custom `.gitignore`
+  excludesfile = ~/.gitignore
 
-	# Treat tabs and all kinds of trailing whitespace as an error
-	whitespace = space-before-tab,tab-in-indent,trailing-space,blank-at-eof
+  # Treat tabs and all kinds of trailing whitespace as an error
+  whitespace = space-before-tab,tab-in-indent,trailing-space,blank-at-eof
 
-	# Make `git rebase` safer on macOS
-	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-	trustctime = false
+  # Make `git rebase` safer on macOS
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime = false
 
-	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
-	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-	precomposeunicode = false
+  # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+  # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+  precomposeunicode = false
 
 [color]
-	# Use colors in Git commands that are capable of colored output when
-	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-	ui = auto
+  # Use colors in Git commands that are capable of colored output when
+  # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+  ui = auto
 
 [diff "bin"]
-	# Use `hexdump` to diff binary files
-	textconv = hexdump -v -C
+  # Use `hexdump` to diff binary files
+  textconv = hexdump -v -C
 
 [merge]
-	# Include summaries of merged commits in newly created merge commit messages
-	log = true
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true
 
 [push]
-	default = simple
+  default = simple

@@ -2,11 +2,11 @@
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
-	eval "$(dircolors -b)"
-	colorflag="--color"
+  eval "$(dircolors -b)"
+  colorflag="--color"
 else # macOS `ls`
-	export LSCOLORS=ExFxBxDxCxegedabagacad
-	colorflag="-G"
+  export LSCOLORS=ExFxBxDxCxegedabagacad
+  colorflag="-G"
 fi
 
 # List all files colorized
@@ -44,23 +44,23 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-	command -v $method > /dev/null || alias "$method"="lwp-request -m '$method'"
+  command -v $method > /dev/null || alias "$method"="lwp-request -m '$method'"
 done
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	# Update installed Homebrew packages
-	alias brewupdate='brew update; brew upgrade --all; brew cleanup'
+  # Update installed Homebrew packages
+  alias brewupdate='brew update; brew upgrade --all; brew cleanup'
 
-	# macOS has no `md5sum`, so use `md5` as a fallback
-	command -v md5sum > /dev/null || alias md5sum="md5"
+  # macOS has no `md5sum`, so use `md5` as a fallback
+  command -v md5sum > /dev/null || alias md5sum="md5"
 
-	# macOS has no `sha1sum`, so use `shasum` as a fallback
-	command -v sha1sum > /dev/null || alias sha1sum="shasum"
+  # macOS has no `sha1sum`, so use `shasum` as a fallback
+  command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
-	# Merge PDF files
-	# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
-	alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
+  # Merge PDF files
+  # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
+  alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
 
-	# Lock the screen
-	alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+  # Lock the screen
+  alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 fi
