@@ -7,6 +7,12 @@ elif which vim &> /dev/null; then
   export EDITOR='vim'
 fi
 
+# Make most the default pager.
+if which most &> /dev/null; then
+  export PAGER='most'
+  export MANPAGER='most -s'
+fi
+
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
 export PYTHONIOENCODING='UTF-8'
 
