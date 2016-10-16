@@ -31,45 +31,36 @@ else
 fi;
 
 prompt_git() {
-  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
-
   # Check if the current directory is in a Git repository.
-  if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
-    local s='';
+  \git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
 
-    # Ensure the index is up to date.
-    git update-index --really-refresh -q &>/dev/null;
+  local s='';
+  # Check for uncommitted changes in the index.
+  ! $(\git diff --quiet --ignore-submodules --cached) && s+='+'
+  # Check for unstaged changes.
+  ! $(\git diff-files --quiet --ignore-submodules --) && s+='!'
+  # Check for untracked files.
+  [ -n "$(\git ls-files --others --exclude-standard)" ] && s+='?'
+  # Check for stashed files.
+  $(\git rev-parse --verify refs/stash &>/dev/null) && s+='$'
+  [ -n "${s}" ] && s=" [${s}]";
 
-    # Check for uncommitted changes in the index.
-    ! $(git diff --quiet --ignore-submodules --cached) && s+='+'
+  # Get the short symbolic ref.
+  # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit.
+  branch="$(\git symbolic-ref -q --short HEAD || git rev-parse -q --short HEAD)";
 
-    # Check for unstaged changes.
-    ! $(git diff-files --quiet --ignore-submodules --) && s+='!'
-
-    # Check for untracked files.
-    [ -n "$(git ls-files --others --exclude-standard)" ] && s+='?'
-
-    # Check for stashed files.
-    $(git rev-parse --verify refs/stash &>/dev/null) && s+='$'
-
-    # Get the short symbolic ref.
-    # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit.
-    branch="$(git symbolic-ref -q --short HEAD || git rev-parse -q --short HEAD)";
-
-    [ -n "${s}" ] && s=" [${s}]";
-
-    echo -e " on ${1}${branch}${s}";
-  else
-    return;
-  fi;
+  echo -e " on \[$cyan\]${branch}${s}\[$reset\]";
 }
 
 # Set prompt
-[ $UID -eq 0 ] && PS1="\[$red\]\u" || PS1="\[$green\]\u" # Highlight the user name when logged in as root
-[ -n "${SSH_TTY}" ] && PS1+="@\h" # Add the hostname when connected via SSH
-PS1+="\[$reset\]:\[$blue\]\w\[$reset\]" # working directory full path
-PS1+="\$(prompt_git \"\[$cyan\]\")\[$reset\]"; # Git repository details
-PS1+=" \$ "
+set_bash_prompt() {
+  [ $UID -eq 0 ] && PS1="\[$red\]\u" || PS1="\[$green\]\u" # Highlight the user name when logged in as root
+  [ -n "${SSH_TTY}" ] && PS1+="@\h" # Add the hostname when connected via SSH
+  PS1+="\[$reset\]:\[$blue\]\w\[$reset\]" # working directory full path
+  PS1+="$(prompt_git)"; # Git repository details
+  PS1+=" \$ "
+}
+PROMPT_COMMAND=set_bash_prompt
 
 PS2="\[${yellow}\]→ \[${reset}\]";
 
