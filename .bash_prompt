@@ -43,13 +43,13 @@ prompt_git() {
   [ -n "$(\git ls-files --others --exclude-standard)" ] && s+='?'
   # Check for stashed files.
   $(\git rev-parse --verify refs/stash &>/dev/null) && s+='$'
-  [ -n "${s}" ] && s=" [${s}]";
+  [ -n "${s}" ] && s=" ${s}";
 
   # Get the short symbolic ref.
   # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit.
   branch="$(\git symbolic-ref -q --short HEAD || git rev-parse -q --short HEAD)";
 
-  echo -e " on \[$cyan\]${branch}${s}\[$reset\]";
+  echo -e "[\[$cyan\]${branch}\[$reset\]${s}]";
 }
 
 # Set prompt
