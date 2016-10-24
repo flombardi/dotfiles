@@ -64,7 +64,7 @@ if [[ "$REPLY" =~ ^[Yy]$ ]]; then
     # Create the necessary symbolic links between the `.dotfiles` and `HOME`
     # directory. The `bash_profile` sources other files directly from the
     # `.dotfiles` repository.
-    for file in .bashrc .bash_profile .curlrc .editorconfig .emacs .gdbinit .gitignore .hushlogin .inputrc .screenrc .wgetrc; do
+    for file in .bash_profile .bashrc .curlrc .editorconfig .emacs .gdbinit .gitignore .hushlogin .inputrc .screenrc .vimrc .wgetrc; do
       ln -fs "${DOTFILES_DIRECTORY}/${file}" "${HOME}/${file}"
     done
     echo "Dotfiles update complete!"
