@@ -1,26 +1,23 @@
 #!/bin/bash
 
 DOTFILES_DIRECTORY="${HOME}/.dotfiles"
-DOTFILES_TARBALL_PATH="https://github.com/flombardi/dotfiles/tarball/master"
-DOTFILES_GIT_REMOTE="git@github.com:flombardi/dotfiles.git"
+DOTFILES_TARBALL_URL="https://github.com/flombardi/dotfiles/tarball/master"
+DOTFILES_GIT_ORIGIN="git@github.com:flombardi/dotfiles.git"
 
 # If missing, download and extract the dotfiles repository
 if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
     echo "Downloading dotfiles..."
+    tmptar=$(mktemp)
+    curl -sLo ${tmptar} ${DOTFILES_TARBALL_URL}
     mkdir ${DOTFILES_DIRECTORY}
-    # Get the tarball
-    curl -fsSLo ${HOME}/dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
-    # Extract to the dotfiles directory
-    tar -zxf ${HOME}/dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
-    # Remove the tarball
-    rm -rf ${HOME}/dotfiles.tar.gz
+    tar -zxf ${tmptar} --strip-components 1 -C ${DOTFILES_DIRECTORY}
+    rm -f ${tmptar}
 fi
 
 cd ${DOTFILES_DIRECTORY}
 
 # Test for known flags
-for opt in $@
-do
+for opt in $@; do
     case $opt in
         --no-sync) no_sync=true ;;
         -*|--*) echo "Warning: invalid option $opt" ;;
@@ -31,7 +28,7 @@ done
 if ! $(git rev-parse --is-inside-work-tree &> /dev/null); then
     echo -n "Initializing git repository..."
     git init
-    git remote add origin ${DOTFILES_GIT_REMOTE}
+    git remote add origin ${DOTFILES_GIT_ORIGIN}
     git fetch origin master
     # Reset the index and working tree to the fetched HEAD
     # (submodules are cloned in the subsequent sync step)
