@@ -2,9 +2,8 @@
 
 ## Install
 
-The installation step requires the [XCode Command Line
-Tools](https://developer.apple.com/downloads) and may overwrite existing
-dotfiles in your HOME.
+The installation step and may overwrite existing dotfiles in your HOME
+(macOS: requires the [XCode Command Line Tools](https://developer.apple.com/downloads)).
 
 ```bash
 $ bash -c "$(curl -fsSL raw.github.com/flombardi/dotfiles/master/bootstrap.sh)"
@@ -30,16 +29,10 @@ $ ~/.dotfiles/bootstrap.sh
 
 Options:
 
-<table>
-    <tr>
-        <td><code>-h</code>, <code>--help</code></td>
-        <td>Help</td>
-    </tr>
-    <tr>
-        <td><code>--no-sync</code></td>
-        <td>Suppress pulling from the remote repository</td>
-    </tr>
-</table>
+| | |
+|-|-|
+| `-h`, `--help` | Help |
+| `--no-sync` | Suppress pulling from the remote repository |
 
 ### Add custom commands without creating a new fork
 
