@@ -27,9 +27,7 @@ Run the bootstrap.sh command:
 $ ~/.dotfiles/bootstrap.sh
 ```
 
-Options:
-
-|  |  |
+| Options |  |
 | --- | ---- |
 | `-h`, `--help` | Help |
 | `--no-sync` | Suppress pulling from the remote repository |
