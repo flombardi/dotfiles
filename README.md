@@ -29,8 +29,8 @@ $ ~/.dotfiles/bootstrap.sh
 
 Options:
 
-| | |
-|-|-|
+|  |  |
+| --- | ---- |
 | `-h`, `--help` | Help |
 | `--no-sync` | Suppress pulling from the remote repository |
 
