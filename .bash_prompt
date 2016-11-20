@@ -53,10 +53,11 @@ prompt_git() {
 }
 
 # Set prompt
+PROMPT_DIRTRIM=3
 set_bash_prompt() {
   [ $UID -eq 0 ] && PS1="\[$red\]\u" || PS1="\[$green\]\u" # Highlight the user name when logged in as root
   [ -n "${SSH_TTY}" ] && PS1+="@\h" # Add the hostname when connected via SSH
-  PS1+="\[$reset\]:\[$blue\]\w\[$reset\]" # working directory full path
+  PS1+="\[$reset\]:\[$blue\]\w\[$reset\]" # working directory shorten path
   PS1+="$(prompt_git)"; # Git repository details
   PS1+=" \$ "
 }
