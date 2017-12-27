@@ -21,6 +21,8 @@ export HISTSIZE='32768';
 export HISTFILESIZE="${HISTSIZE}"
 # Omit duplicates and commands that begin with a space from history.
 export HISTCONTROL='ignoreboth'
+# Color up bash history with the date time information of called commands.
+export HISTTIMEFORMAT=$(echo -e "\033[0;36m[%F %T]\033[0m ")
 
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}"
