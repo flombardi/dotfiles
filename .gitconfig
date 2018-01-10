@@ -17,7 +17,7 @@
   c = clone --recursive
 
   # Update a repository and prunes all stale references
-  f = fecth --prune
+  f = fetch --prune
 
   # Amend the currently staged files to the latest commit
   amend = commit --amend --reuse-message=HEAD
