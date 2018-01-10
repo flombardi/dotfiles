@@ -16,6 +16,9 @@
   # Clone a repository including all submodules
   c = clone --recursive
 
+  # Update a repository and prunes all stale references
+  f = fecth --prune
+
   # Amend the currently staged files to the latest commit
   amend = commit --amend --reuse-message=HEAD
 
