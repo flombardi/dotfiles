@@ -56,5 +56,5 @@ Suggestions/improvements
 
 ## Thanks to…
 
-* [Mathias Bynens](https://mathiasbynens.be/) and his [dotfiles repository] (https://github.com/mathiasbynens/dotfiles)
+* [Mathias Bynens](https://mathiasbynens.be/) and his [dotfiles repository](https://github.com/mathiasbynens/dotfiles)
 * [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles repository](https://github.com/necolas/dotfiles)
