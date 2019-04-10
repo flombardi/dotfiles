@@ -44,7 +44,7 @@
 (global-set-key "\C-cg" 'goto-line)
 (global-set-key "\C-c\C-a" 'add-change-log-entry)
 
-
 ;; theme
-(add-to-list 'custom-theme-load-path "~/.dotfiles/emacs-themes/")
-(load-theme 'zenburn t)
+(add-to-list 'load-path "~/.dotfiles/spacemacs-theme/")
+(add-to-list 'custom-theme-load-path "~/.dotfiles/spacemacs-theme/")
+(load-theme 'spacemacs-dark t)
