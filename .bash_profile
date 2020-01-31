@@ -1,5 +1,5 @@
 # Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # Load the shell dotfiles, and then some:
 # * ~/.bash_extra can be used for other settings you don’t want to commit.
