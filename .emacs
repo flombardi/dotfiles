@@ -14,6 +14,8 @@
 ;; nb column, nb lines
 (setq column-number-mode t)
 (setq line-number-mode t)
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
 
 ;; colors
 (global-font-lock-mode t)
