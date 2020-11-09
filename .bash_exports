@@ -7,10 +7,9 @@ elif which vim &> /dev/null; then
   export EDITOR='vim'
 fi
 
-# Make most the default pager.
-if which most &> /dev/null; then
-  export PAGER='most'
-  export MANPAGER='most -s'
+# Make bat the default manpage viewer.
+if which bat &> /dev/null; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi
 
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
