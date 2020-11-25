@@ -1,5 +1,6 @@
-# Add `~/.local/bin` to the `$PATH`
-export PATH="$HOME/.local/bin:/usr/local/sbin:$PATH"
+# Add gnubin and `~/.local/bin` to the `$PATH`
+[ -d /usr/local/opt/coreutils/libexec/gnubin ] && export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Load the shell dotfiles, and then some:
 # * ~/.bash_extra can be used for other settings you don’t want to commit.
