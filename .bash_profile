@@ -1,5 +1,12 @@
-# Add gnubin and `~/.local/bin` to the `$PATH`
-[ -d /usr/local/opt/coreutils/libexec/gnubin ] && export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+# Set HOMEBREW_PREFIX and add Homebrew gnubin to `$PATH`
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin" ]]; then
+    export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
+  fi
+fi
+
+# Add `~/.local/bin` to the `$PATH`
 export PATH="$HOME/.local/bin:$PATH"
 
 # Load the shell dotfiles, and then some:
@@ -25,10 +32,8 @@ OPTIONS="checkwinsize nocaseglob histappend cdspell"
 for option in $OPTIONS; do shopt -s $option; done
 
 # Add tab completion for many Bash commands
-if which brew &> /dev/null && [ -f "$(brew --prefix)/etc/bash_completion" ]; then
-  source "$(brew --prefix)/etc/bash_completion"
-elif [ -f /etc/bash_completion ]; then
-  source /etc/bash_completion
+if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+  source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
