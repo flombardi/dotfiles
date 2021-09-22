@@ -11,7 +11,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Load the shell dotfiles, and then some:
 # * ~/.bash_extra can be used for other settings you don’t want to commit.
-for file in ~/.dotfiles/.{bash_prompt,bash_exports,bash_aliases,bash_functions} ~/.bash_extra; do
+for file in ~/.dotfiles/.{bash_exports,bash_aliases,bash_functions} ~/.bash_extra; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
@@ -38,3 +38,11 @@ fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
+
+hash starship &>/dev/null;
+if [ $? -eq 0 ]; then
+  export STARSHIP_CONFIG=~/.dotfiles/starship.toml
+  eval "$(starship init bash)"
+else
+  source ~/.dotfiles/.bash_prompt
+fi;
