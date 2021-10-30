@@ -31,3 +31,12 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 
 # Suppress Catalina zsh warning
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# Set proxy env variables from macOS System Preferences
+for p in HTTP HTTPS FTP; do
+  if [[ $(scutil --proxy 2>/dev/null | grep "${p}Enable" | cut -d: -f2) -eq 1 ]]; then
+    host=$(scutil --proxy 2>/dev/null | grep "${p}Proxy" | cut -d: -f2 | tr -d ' ')
+    port=$(scutil --proxy 2>/dev/null | grep "${p}Port" | cut -d: -f2 | tr -d ' ')
+    export ${p}_PROXY="http://${host}:${port}"
+  fi
+done
