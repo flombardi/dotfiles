@@ -1,5 +1,5 @@
 # Set HOMEBREW_PREFIX and add Homebrew gnubin to `$PATH`
-if type brew &>/dev/null; then
+if which brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
   if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin" ]]; then
     export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"

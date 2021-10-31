@@ -50,17 +50,4 @@ done
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # Update installed Homebrew packages
   alias brewupdate='brew update; brew upgrade --all; brew cleanup'
-
-  # macOS has no `md5sum`, so use `md5` as a fallback
-  command -v md5sum > /dev/null || alias md5sum="md5"
-
-  # macOS has no `sha1sum`, so use `shasum` as a fallback
-  command -v sha1sum > /dev/null || alias sha1sum="shasum"
-
-  # Merge PDF files
-  # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
-  alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-
-  # Lock the screen
-  alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 fi
