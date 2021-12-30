@@ -1,8 +1,14 @@
 # Set HOMEBREW_PREFIX and add Homebrew gnubin to `$PATH`
 if which brew &>/dev/null; then
+  export PATH="/usr/local/sbin:$PATH"
   HOMEBREW_PREFIX="$(brew --prefix)"
   if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin" ]]; then
     export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
+    export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
+  fi
+  if [[ -d "${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin" ]]; then
+    export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
+    export MANPATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnuman:$MANPATH"
   fi
 fi
 
