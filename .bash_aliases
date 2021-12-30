@@ -47,7 +47,7 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
   command -v $method > /dev/null || alias "$method"="lwp-request -m '$method'"
 done
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  # Update installed Homebrew packages
-  alias brewupdate='brew update; brew upgrade --all; brew cleanup'
+# Update installed Homebrew packages
+if type brew &>/dev/null; then
+  alias brewupdate='brew update; brew upgrade; brew cleanup'
 fi

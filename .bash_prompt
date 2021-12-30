@@ -12,7 +12,7 @@ violet="\e[1;35m";
 white="\e[1;37m";
 yellow="\e[1;33m";
 
-if which starship &> /dev/null; then
+if type starship &>/dev/null; then
   export STARSHIP_CONFIG=~/.dotfiles/starship.toml
   eval "$(starship init bash)"
 else

@@ -1,14 +1,20 @@
-# Set HOMEBREW_PREFIX and add Homebrew gnubin to `$PATH`
-if which brew &>/dev/null; then
-  export PATH="/usr/local/sbin:$PATH"
+if type brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin" ]]; then
+
+  # Add Homebrew bin to `$PATH`
+  export PATH="/usr/local/sbin:$PATH"
+  if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec" ]]; then
     export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
     export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
   fi
-  if [[ -d "${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin" ]]; then
+  if [[ -d "${HOMEBREW_PREFIX}/opt/gnu-sed/libexec" ]]; then
     export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
     export MANPATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnuman:$MANPATH"
+  fi
+
+  # Add Homebrew tab completion for many Bash commands
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
   fi
 fi
 
@@ -36,11 +42,6 @@ OPTIONS="checkwinsize nocaseglob histappend cdspell"
 [[ $BASH_VERSION == "4."* ]] && OPTIONS="$OPTIONS autocd globstar"
 
 for option in $OPTIONS; do shopt -s $option; done
-
-# Add tab completion for many Bash commands
-if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-  source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh

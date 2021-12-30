@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 # Make emacs or vim the default editor.
-if which emacs &> /dev/null; then
+if type emacs &>/dev/null; then
   export EDITOR='emacs'
-elif which vim &> /dev/null; then
+elif type vim &>/dev/null; then
   export EDITOR='vim'
 fi
 
 # Make bat the default manpage viewer.
-if which bat &> /dev/null; then
+if type bat &>/dev/null; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi
 

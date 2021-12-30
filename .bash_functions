@@ -15,7 +15,7 @@ function fs() {
 }
 
 # Use Git’s colored diff when available
-if which git &> /dev/null; then
+if type git &>/dev/null; then
   function diff() {
     git diff --no-index --color-words "$@";
   }
@@ -37,16 +37,6 @@ function server() {
   # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
   # And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
   python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
-}
-
-# Syntax-highlight JSON strings or files
-# Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
-function json() {
-  if [ -t 0 ]; then # argument
-    python -mjson.tool <<< "$*" | pygmentize -l javascript;
-  else # pipe
-    python -mjson.tool | pygmentize -l javascript;
-  fi;
 }
 
 # Run `dig` and display the most useful info
@@ -120,5 +110,5 @@ function getcertnames() {
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
 function tre() {
-  tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+  tree -aC -I '.git|node_modules|__pycache__' --dirsfirst "$@" | less -FRNX;
 }
