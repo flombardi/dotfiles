@@ -2,15 +2,13 @@ if type brew &>/dev/null; then
   HOMEBREW_PREFIX="$(brew --prefix)"
 
   # Add Homebrew bin to `$PATH`
-  export PATH="/usr/local/sbin:$PATH"
-  if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec" ]]; then
-    export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
-    export MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
-  fi
-  if [[ -d "${HOMEBREW_PREFIX}/opt/gnu-sed/libexec" ]]; then
-    export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
-    export MANPATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnuman:$MANPATH"
-  fi
+  export PATH="$HOME/Library/Python/3.9/bin:/usr/local/sbin:$PATH"
+  for pkg in coreutils gnu-sed grep; do
+    if [[ -d "${HOMEBREW_PREFIX}/opt/${pkg}/libexec" ]]; then
+      export PATH="${HOMEBREW_PREFIX}/opt/${pkg}/libexec/gnubin:$PATH"
+      export MANPATH="${HOMEBREW_PREFIX}/opt/${pkg}/libexec/gnuman:$MANPATH"
+    fi
+  done
 
   # Add Homebrew tab completion for many Bash commands
   if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
