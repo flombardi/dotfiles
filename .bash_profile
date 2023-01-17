@@ -1,18 +1,34 @@
-# Set HOMEBREW_PREFIX and add Homebrew gnubin to `$PATH`
+# Set HOMEBREW_PREFIX and PATH
+if [ -e "/opt/homebrew/bin/brew" ]; then
+  eval $(/opt/homebrew/bin/brew shellenv)
+elif [ -e "/usr/local/bin/brew" ]; then
+  eval $(/usr/local/bin/brew shellenv)
+fi
 if type brew &>/dev/null; then
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin" ]]; then
-    export PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
-  fi
+  # Add Homebrew gnubin to `$PATH`
+  for dir in ${HOMEBREW_PREFIX}/opt/{coreutils,gnu-sed,grep}/libexec; do
+    test -d "${dir}/gnubin" && export PATH="${dir}/gnubin${PATH+:$PATH}"
+    test -d "${dir}/gnuman" && export MANPATH="${dir}/gnuman${MANPATH+:$MANPATH}"
+  done
+  unset dir
+
+  # Add Homebrew tab completion for many Bash commands
+  test -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 fi
 
+# Add local Python bin to the `$PATH`
+for dir in ${HOME}/Library/Python/*; do
+  test -d "${dir}/bin" && export PATH="${dir}/bin${PATH+:$PATH}"
+done
+unset dir
+
 # Add `~/.local/bin` to the `$PATH`
-export PATH="$HOME/.local/bin:$PATH"
+test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin${PATH+:$PATH}"
 
 # Load the shell dotfiles, and then some:
 # * ~/.bash_extra can be used for other settings you don’t want to commit.
-for file in ~/.dotfiles/.{bash_exports,bash_aliases,bash_functions} ~/.bash_extra; do
-  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+for file in ${HOME}/.dotfiles/.{bash_exports,bash_aliases,bash_functions} ${HOME}/.bash_extra; do
+  test -f "${file}" && source "${file}"
 done
 unset file
 
@@ -23,23 +39,17 @@ unset file
 # * histappend : Append to the Bash history file, rather than overwriting it
 # * cdspell : Autocorrect typos in path names when using `cd`
 OPTIONS="checkwinsize nocaseglob histappend cdspell"
-
 # Enable some Bash 4 features when possible:
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
 # * Recursive globbing, e.g. `echo **/*.txt`
-[[ $BASH_VERSION == "4."* ]] && OPTIONS="$OPTIONS autocd globstar"
-
+[[ $BASH_VERSION == "4."* ]] && OPTIONS="${OPTIONS} autocd globstar"
 for option in $OPTIONS; do shopt -s $option; done
 
-# Add tab completion for many Bash commands
-if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-  source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-fi
-
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
+test -f "${HOME}/.ssh/config" && complete -o "default" -o "nospace" -W "$(grep "^Host" "${HOME}/.ssh/config" | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
 
 # Load prompt dotfile
-[ -r ~/.dotfiles/.bash_prompt ] && [ -f ~/.dotfiles/.bash_prompt ] && source ~/.dotfiles/.bash_prompt
+test -f "${HOME}/.dotfiles/.bash_prompt" && source "${HOME}/.dotfiles/.bash_prompt"
 
+# iTerm2 intergration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
