@@ -16,11 +16,15 @@ if type brew &>/dev/null; then
   test -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 fi
 
-# Add local Python bin to the `$PATH`
-for dir in ${HOME}/Library/Python/*; do
-  test -d "${dir}/bin" && export PATH="${dir}/bin${PATH+:$PATH}"
-done
-unset dir
+# pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+test -d "${HOME}/.pyenv/bin" && export PATH="${PYENV_ROOT}/bin${PATH+:$PATH}"
+type pyenv &>/dev/null && test eval "$(pyenv init -)"
+
+# Node Version Manager
+export NVM_DIR="${HOME}/.nvm"
+test -f "${NVM_DIR}/nvm.sh" && source "${NVM_DIR}/nvm.sh"
+test -f "{$NVM_DIR}/bash_completion" && source "${NVM_DIR}/bash_completion"
 
 # Add `~/.local/bin` to the `$PATH`
 test -d "${HOME}/.local/bin" && export PATH="${HOME}/.local/bin${PATH+:$PATH}"
