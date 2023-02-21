@@ -19,7 +19,7 @@ fi
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 test -d "${HOME}/.pyenv/bin" && export PATH="${PYENV_ROOT}/bin${PATH+:$PATH}"
-type pyenv &>/dev/null && test eval "$(pyenv init -)"
+type pyenv &>/dev/null && eval "$(pyenv init -)"
 
 # Node Version Manager
 export NVM_DIR="${HOME}/.nvm"
