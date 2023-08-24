@@ -17,7 +17,7 @@ function fs() {
 # Use Git’s colored diff when available
 if type git &>/dev/null; then
   function diff() {
-    git diff --no-index --color-words "$@";
+    git diff --no-index "$@";
   }
 fi;
 
