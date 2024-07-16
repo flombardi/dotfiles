@@ -34,7 +34,8 @@ alias sudo='sudo '
 alias week='date +%V'
 
 # IP addresses
-alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias publicip4="dig +short -4 A myip.opendns.com @resolver1.opendns.com"
+alias publicip6="dig +short -6 AAAA myip.opendns.com @resolver1.opendns.com"
 
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null || alias hd="hexdump -C"
