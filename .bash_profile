@@ -16,6 +16,9 @@ if type brew &>/dev/null; then
   test -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 fi
 
+# Mole (https://github.com/tw93/Mole)
+type mole &>/dev/null && eval "$(mole completion bash)"
+
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 test -d "${HOME}/.pyenv/bin" && export PATH="${PYENV_ROOT}/bin${PATH+:$PATH}"
